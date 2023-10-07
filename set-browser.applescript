@@ -12,7 +12,7 @@
 on run argv
 	set theBrowser to "Arc"
 	-- set theBrowser to "Safari"
-	set theProfile to "Development"
+	set theProfile to "Posting"
 	global browser, profile
 
 	try
@@ -48,6 +48,7 @@ on run argv
 	end if
 
 	# Auto-click the dialog that the system will show to prevent a browser from stealing default
+	delay 1
 	try
 		tell application "System Events"
 			tell application process "CoreServicesUIAgent"
@@ -61,4 +62,14 @@ on run argv
 	end try
 
 	# Now, if the browser is Arc, and you passed a profile, switch to that profile
+	delay 2
+	if (theBrowser is "Arc")
+		if (profile is not "")
+			tell application "Arc"
+				tell front window
+					tell space profile to focus
+				end tell
+			end tell
+		end if
+	end if
 end run
