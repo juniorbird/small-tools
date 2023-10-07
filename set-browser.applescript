@@ -10,21 +10,21 @@
 	Run this like `osascript set-browser.scpt Arc Work
 *)
 on run argv
-	set theBrowser to "Arc"
-	-- set theBrowser to "Safari"
-	set theProfile to "Posting"
-	global browser, profile
+	local browser, profile, theBrowser
+	set theArgs to argv
 
+	# We have to do the below because we want to be able to pass either 1 or 2 arguments and Applescript is picky
 	try
-		set testProfile to theProfile
+		set theBrowser to item 1 of argv
+	on error
+		display dialog "You must pass a browser"
 	end try
 
-	-- set theBrowser to item 1 of argv
-
-	-- try
-	-- 	set theProfile to item 2 of argv
-	-- end try
-
+	try
+		set profile to item 2 of argv
+	on error
+		set profile to ""
+	end try
 
 
 	# Wish I had a dictionary of browsernames but I can do a lot of "if"s
@@ -34,21 +34,10 @@ on run argv
 		set browser to "safari"
 	end if
 
-	if (theProfile is not "")
-		set profile to theProfile
-	end if
-
 	# Set the browser
-	if (profile is "")
-		display dialog browser
-		do shell script "defaultbrowser" & " " & browser
-	else
-		display dialog browser & " " & profile
-		do shell script "defaultbrowser" & " " & browser
-	end if
+	do shell script "defaultbrowser " & browser
 
 	# Auto-click the dialog that the system will show to prevent a browser from stealing default
-	delay 1
 	try
 		tell application "System Events"
 			tell application process "CoreServicesUIAgent"
@@ -62,7 +51,7 @@ on run argv
 	end try
 
 	# Now, if the browser is Arc, and you passed a profile, switch to that profile
-	delay 2
+	delay 1
 	if (theBrowser is "Arc")
 		if (profile is not "")
 			tell application "Arc"
@@ -72,4 +61,5 @@ on run argv
 			end tell
 		end if
 	end if
+
 end run
