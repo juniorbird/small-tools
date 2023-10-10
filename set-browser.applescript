@@ -52,14 +52,16 @@ on run argv
 
 	# Now, if the browser is Arc, and you passed a profile, switch to that profile
 	delay 1
-	if (theBrowser is "Arc")
-		if (profile is not "")
-			tell application "Arc"
-				tell front window
-					tell space profile to focus
+	try
+		if (theBrowser is "Arc")
+			if (profile is not "")
+				tell application "Arc"
+					tell front window
+						tell space profile to focus
+					end tell
 				end tell
-			end tell
+			end if
 		end if
-	end if
+	end try
 
 end run
