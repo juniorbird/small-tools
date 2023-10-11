@@ -56,7 +56,8 @@ on run argv
 		if (theBrowser is "Arc")
 			if (profile is not "")
 				tell application "Arc"
-					tell front window
+					# We're going to assume that "last window" is the most-recently-used window and is the most user-friendly choice
+					tell last window
 						tell space profile to focus
 					end tell
 				end tell
